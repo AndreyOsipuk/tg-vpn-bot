@@ -31,13 +31,20 @@ export async function handleStart(ctx: Context): Promise<void> {
     '',
     'Быстрый, надёжный VPN на базе VLESS + Reality.',
     '',
-    'Перед покупкой скачай приложение для',
-    'своей платформы — /apps',
+    'Перед покупкой скачай приложение:',
+    '📱 Android — <a href="https://play.google.com/store/apps/details?id=com.v2ray.ang">v2rayNG</a>',
+    '🍏 iOS — <a href="https://apps.apple.com/app/hiddify-proxy-vpn/id6596777532">Hiddify</a>',
+    '🖥 Windows / macOS / Linux — <a href="https://hiddify.com">Hiddify</a>',
+    '',
+    'Все приложения и инструкция — /apps',
     '',
     'Выбери локацию:',
   ].join('\n');
 
-  await ctx.reply(text, Markup.inlineKeyboard(buttons));
+  await ctx.reply(text, {
+    parse_mode: 'HTML',
+    ...Markup.inlineKeyboard(buttons),
+  });
 }
 
 // --- Server selection callback → show tariffs ---
@@ -312,35 +319,40 @@ export async function handleAdminReply(ctx: Context): Promise<void> {
 
 export async function handleApps(ctx: Context): Promise<void> {
   const text = [
-    '<b>Приложения для подключения:</b>',
+    '<b>📲 Приложения для подключения:</b>',
     '',
     '<b>Android:</b>',
-    'v2rayNG — Google Play / GitHub',
+    '<a href="https://play.google.com/store/apps/details?id=com.v2ray.ang">v2rayNG</a>',
+    '<a href="https://play.google.com/store/apps/details?id=app.hiddify.com">Hiddify</a>',
     '',
     '<b>iOS:</b>',
-    'Hiddify — App Store',
-    'Streisand — App Store',
+    '<a href="https://apps.apple.com/app/hiddify-proxy-vpn/id6596777532">Hiddify</a>',
+    '<a href="https://apps.apple.com/app/streisand/id6450534064">Streisand</a>',
+    '<a href="https://apps.apple.com/app/v2box-v2ray-client/id6446814690">V2BOX</a>',
     '',
     '<b>Windows:</b>',
-    'Hiddify — hiddify.com',
-    'v2rayN — GitHub',
+    '<a href="https://hiddify.com">Hiddify</a>',
+    '<a href="https://github.com/2dust/v2rayN/releases">v2rayN</a>',
+    '<a href="https://amnezia.org">AmneziaVPN</a>',
     '',
     '<b>macOS:</b>',
-    'Hiddify — hiddify.com',
-    'V2BOX — App Store',
+    '<a href="https://hiddify.com">Hiddify</a>',
+    '<a href="https://apps.apple.com/app/v2box-v2ray-client/id6446814690?platform=mac">V2BOX</a>',
+    '<a href="https://amnezia.org">AmneziaVPN</a>',
     '',
     '<b>Linux:</b>',
-    'Hiddify — hiddify.com',
-    'v2rayA — GitHub',
+    '<a href="https://hiddify.com">Hiddify</a>',
+    '<a href="https://amnezia.org">AmneziaVPN</a>',
+    '<a href="https://github.com/v2rayA/v2rayA/releases">v2rayA</a>',
     '',
     '<b>Android TV:</b>',
-    'v2rayNG — Google Play',
-    'Hiddify — Google Play',
+    '<a href="https://play.google.com/store/apps/details?id=com.v2ray.ang">v2rayNG</a>',
+    '<a href="https://play.google.com/store/apps/details?id=app.hiddify.com">Hiddify</a>',
     '',
     '<b>Как подключить:</b>',
     '1. Скачай приложение для своей платформы',
-    '2. Скопируй ссылку из /keys',
-    '3. В приложении: + → Импорт из буфера',
+    '2. Купи подписку и скопируй ссылку',
+    '3. В приложении: + → Импорт из буфера обмена',
   ].join('\n');
 
   await ctx.reply(text, { parse_mode: 'HTML' });
