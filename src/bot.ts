@@ -108,9 +108,6 @@ export async function startBot(): Promise<Telegraf> {
   // Start cron jobs
   startCronJobs(bot);
 
-  // Launch bot
-  await bot.launch();
-
   // Set commands for regular users
   await bot.telegram.setMyCommands([
     { command: 'start', description: 'Выбрать локацию и тариф' },
@@ -120,6 +117,7 @@ export async function startBot(): Promise<Telegraf> {
     { command: 'support', description: 'Написать в поддержку' },
     { command: 'help', description: 'Помощь' },
   ]);
+  logger.info('User commands registered');
 
   // Set commands for admin (includes admin commands)
   await bot.telegram.setMyCommands([
@@ -135,7 +133,10 @@ export async function startBot(): Promise<Telegraf> {
     { command: 'users', description: '🔧 Список юзеров' },
     { command: 'broadcast', description: '🔧 Рассылка' },
   ], { scope: { type: 'chat', chat_id: config.adminId } });
+  logger.info('Admin commands registered');
 
+  // Launch bot
+  await bot.launch();
   logger.info('Bot started');
 
   // Graceful shutdown
