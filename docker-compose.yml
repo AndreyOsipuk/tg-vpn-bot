@@ -1,8 +1,0 @@
-services:
-  bot:
-    build: .
-    container_name: vpn-bot
-    restart: always
-    env_file: .env
-    volumes:
-      - ./data:/app/data

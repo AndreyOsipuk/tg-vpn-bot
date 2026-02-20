@@ -3,7 +3,7 @@ import { config } from './config';
 import { logger } from './logger';
 import {
   handleStart, handleServerSelect, handleBackToServers,
-  handleBuy, handleCheckPayment, handleStatus, handleKeys, handleShowKeys, handleHelp,
+  handleBuy, handleCheckPayment, handleStatus, handleKeys, handleShowKeys, handleApps, handleHelp,
   handleSupport, handleUserMessage, handleAdminReply,
 } from './handlers';
 import {
@@ -54,6 +54,7 @@ export function createBot(): Telegraf {
   bot.start(handleStart);
   bot.command('status', handleStatus);
   bot.command('keys', handleKeys);
+  bot.command('apps', handleApps);
   bot.command('support', handleSupport);
   bot.command('help', handleHelp);
 

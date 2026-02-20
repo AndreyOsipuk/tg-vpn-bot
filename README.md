@@ -19,6 +19,15 @@ TypeScript, Telegraf, SQLite, Docker, pino
 
 Трафик безлимитный.
 
+## Архитектура
+
+```
+VDS #1 (RU) — бот + 3X-UI
+VDS #2 (NL) — 3X-UI
+```
+
+Бот и RU VPN на одном сервере (через localhost). При росте нагрузки можно вынести бота на отдельный VDS.
+
 ## Запуск
 
 ```bash

@@ -31,9 +31,8 @@ export async function handleStart(ctx: Context): Promise<void> {
     '',
     'Быстрый, надёжный VPN на базе VLESS + Reality.',
     '',
-    'Перед покупкой скачай приложение:',
-    '  Android — v2rayNG',
-    '  iOS — Hiddify / Streisand',
+    'Перед покупкой скачай приложение для',
+    'своей платформы — /apps',
     '',
     'Выбери локацию:',
   ].join('\n');
@@ -309,6 +308,44 @@ export async function handleAdminReply(ctx: Context): Promise<void> {
   }
 }
 
+// --- /apps ---
+
+export async function handleApps(ctx: Context): Promise<void> {
+  const text = [
+    '<b>Приложения для подключения:</b>',
+    '',
+    '<b>Android:</b>',
+    'v2rayNG — Google Play / GitHub',
+    '',
+    '<b>iOS:</b>',
+    'Hiddify — App Store',
+    'Streisand — App Store',
+    '',
+    '<b>Windows:</b>',
+    'Hiddify — hiddify.com',
+    'v2rayN — GitHub',
+    '',
+    '<b>macOS:</b>',
+    'Hiddify — hiddify.com',
+    'V2BOX — App Store',
+    '',
+    '<b>Linux:</b>',
+    'Hiddify — hiddify.com',
+    'v2rayA — GitHub',
+    '',
+    '<b>Android TV:</b>',
+    'v2rayNG — Google Play',
+    'Hiddify — Google Play',
+    '',
+    '<b>Как подключить:</b>',
+    '1. Скачай приложение для своей платформы',
+    '2. Скопируй ссылку из /keys',
+    '3. В приложении: + → Импорт из буфера',
+  ].join('\n');
+
+  await ctx.reply(text, { parse_mode: 'HTML' });
+}
+
 // --- /help ---
 
 export async function handleHelp(ctx: Context): Promise<void> {
@@ -317,15 +354,9 @@ export async function handleHelp(ctx: Context): Promise<void> {
     '/start — Выбрать сервер и купить VPN',
     '/status — Мои подписки',
     '/keys — Ссылки для подключения',
+    '/apps — Приложения для всех платформ',
     '/support — Написать в поддержку',
     '/help — Эта справка',
-    '',
-    'Как подключить:',
-    '1. Скачай приложение:',
-    '   Android — v2rayNG (Google Play / GitHub)',
-    '   iOS — Hiddify (App Store) или Streisand',
-    '2. Скопируй ссылку из /keys',
-    '3. В приложении: + → Импорт из буфера',
   ].join('\n');
 
   await ctx.reply(text);
