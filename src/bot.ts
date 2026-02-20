@@ -110,6 +110,32 @@ export async function startBot(): Promise<Telegraf> {
 
   // Launch bot
   await bot.launch();
+
+  // Set commands for regular users
+  await bot.telegram.setMyCommands([
+    { command: 'start', description: 'Выбрать локацию и тариф' },
+    { command: 'status', description: 'Мои подписки' },
+    { command: 'keys', description: 'Мои ключи подключения' },
+    { command: 'apps', description: 'Скачать приложение' },
+    { command: 'support', description: 'Написать в поддержку' },
+    { command: 'help', description: 'Помощь' },
+  ]);
+
+  // Set commands for admin (includes admin commands)
+  await bot.telegram.setMyCommands([
+    { command: 'start', description: 'Выбрать локацию и тариф' },
+    { command: 'status', description: 'Мои подписки' },
+    { command: 'keys', description: 'Мои ключи подключения' },
+    { command: 'apps', description: 'Скачать приложение' },
+    { command: 'support', description: 'Написать в поддержку' },
+    { command: 'help', description: 'Помощь' },
+    { command: 'admin', description: '🔧 Админ-панель' },
+    { command: 'stats', description: '🔧 Статистика' },
+    { command: 'health', description: '🔧 Проверка серверов' },
+    { command: 'users', description: '🔧 Список юзеров' },
+    { command: 'broadcast', description: '🔧 Рассылка' },
+  ], { scope: { type: 'chat', chat_id: config.adminId } });
+
   logger.info('Bot started');
 
   // Graceful shutdown

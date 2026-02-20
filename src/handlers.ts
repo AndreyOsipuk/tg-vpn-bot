@@ -32,17 +32,21 @@ export async function handleStart(ctx: Context): Promise<void> {
     'Быстрый, надёжный VPN на базе VLESS + Reality.',
     '',
     'Перед покупкой скачай приложение:',
-    '📱 Android — <a href="https://play.google.com/store/apps/details?id=com.v2ray.ang">v2rayNG</a>',
-    '🍏 iOS — <a href="https://apps.apple.com/app/hiddify-proxy-vpn/id6596777532">Hiddify</a>',
-    '🖥 Windows / macOS / Linux — <a href="https://hiddify.com">Hiddify</a>',
+    '📱 Android — <a href="https://play.google.com/store/apps/details?id=com.v2ray.ang">v2rayNG</a> / <a href="https://play.google.com/store/apps/details?id=app.hiddify.com">Hiddify</a>',
+    '🍏 iOS — <a href="https://apps.apple.com/app/hiddify-proxy-vpn/id6596777532">Hiddify</a> / <a href="https://apps.apple.com/app/streisand/id6450534064">Streisand</a>',
+    '🖥 Windows — <a href="https://hiddify.com">Hiddify</a> / <a href="https://github.com/2dust/v2rayN/releases">v2rayN</a>',
+    '🍎 macOS — <a href="https://hiddify.com">Hiddify</a> / <a href="https://apps.apple.com/app/v2box-v2ray-client/id6446814690?platform=mac">V2BOX</a>',
+    '🐧 Linux — <a href="https://hiddify.com">Hiddify</a> / <a href="https://github.com/v2rayA/v2rayA/releases">v2rayA</a>',
+    '📺 Android TV — <a href="https://play.google.com/store/apps/details?id=com.v2ray.ang">v2rayNG</a>',
     '',
-    'Все приложения и инструкция — /apps',
+    'Полный список — /apps',
     '',
     'Выбери локацию:',
   ].join('\n');
 
   await ctx.reply(text, {
     parse_mode: 'HTML',
+    link_preview_options: { is_disabled: true },
     ...Markup.inlineKeyboard(buttons),
   });
 }
@@ -355,7 +359,7 @@ export async function handleApps(ctx: Context): Promise<void> {
     '3. В приложении: + → Импорт из буфера обмена',
   ].join('\n');
 
-  await ctx.reply(text, { parse_mode: 'HTML' });
+  await ctx.reply(text, { parse_mode: 'HTML', link_preview_options: { is_disabled: true } });
 }
 
 // --- /help ---
