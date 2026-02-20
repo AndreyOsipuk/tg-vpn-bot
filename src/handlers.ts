@@ -1,5 +1,6 @@
 import { Markup } from 'telegraf';
 import type { Context } from 'telegraf';
+import QRCode from 'qrcode';
 import { config } from './config';
 import { logger } from './logger';
 import {
@@ -241,18 +242,27 @@ export async function handleKeys(ctx: Context): Promise<void> {
     return;
   }
 
-  const lines: string[] = ['Твои ссылки для подключения:', ''];
-
   for (let i = 0; i < subs.length; i++) {
     const s = subs[i];
     const label = `VPN-${s.server_code.toUpperCase()}-${i + 1}`;
     const link = buildVlessLink(s.server_code, s.client_uuid, label);
-    lines.push(`${i + 1}. ${s.server_emoji} ${s.server_name}:`);
-    lines.push(`<code>${link}</code>`);
-    lines.push('');
-  }
 
-  await ctx.reply(lines.join('\n'), { parse_mode: 'HTML' });
+    const text = [
+      `<b>${s.server_emoji} ${s.server_name}</b>`,
+      `<code>${link}</code>`,
+    ].join('\n');
+
+    await ctx.reply(text, { parse_mode: 'HTML', link_preview_options: { is_disabled: true } });
+
+    try {
+      const qrBuffer = await QRCode.toBuffer(link, { width: 300, margin: 2 });
+      await ctx.replyWithPhoto({ source: qrBuffer }, {
+        caption: `QR-код ${s.server_emoji} ${s.server_name}`,
+      });
+    } catch (err) {
+      logger.warn({ error: (err as Error).message }, 'Failed to generate QR code');
+    }
+  }
 }
 
 export async function handleShowKeys(ctx: Context): Promise<void> {
