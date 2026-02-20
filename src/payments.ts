@@ -1,5 +1,6 @@
 import crypto from 'crypto';
 import { v4 as uuidv4 } from 'uuid';
+import QRCode from 'qrcode';
 import { Telegraf } from 'telegraf';
 import { config } from './config';
 import { logger } from './logger';
@@ -142,14 +143,14 @@ export async function activateSubscription(payment: Payment): Promise<void> {
 
   // Notify user
   const msg = [
-    'Подписка активирована!',
+    '<b>Подписка активирована!</b>',
     '',
     `Тариф: ${tariff.label.split('—')[0].trim()}`,
     `Сервер: ${server.emoji} ${server.name}`,
     `До: ${formatDate(expiresAt.toISOString())} (UTC)`,
     `Устройства: до ${tariff.maxDevices}`,
     '',
-    'Ссылка для подключения:',
+    '<b>Ссылка для подключения:</b>',
     `<code>${vlessLink}</code>`,
     '',
     '<b>Как подключить:</b>',
@@ -157,16 +158,30 @@ export async function activateSubscription(payment: Payment): Promise<void> {
     '2. Открой приложение → + → Импорт из буфера',
     '3. Нажми кнопку подключения',
     '',
-    '<b>Какое приложение скачать:</b>',
-    'Android / Android TV — v2rayNG',
-    'iOS — Hiddify или Streisand',
-    'Windows / macOS / Linux — Hiddify',
+    '<b>Приложения:</b>',
+    '📱 Android — <a href="https://play.google.com/store/apps/details?id=com.v2ray.ang">v2rayNG</a>',
+    '🍏 iOS — <a href="https://apps.apple.com/app/hiddify-proxy-vpn/id6596777532">Hiddify</a> / <a href="https://apps.apple.com/app/streisand/id6450534064">Streisand</a>',
+    '🖥 Windows / macOS / Linux — <a href="https://hiddify.com">Hiddify</a>',
+    '📺 Android TV — <a href="https://play.google.com/store/apps/details?id=com.v2ray.ang">v2rayNG</a>',
     '',
     'Полный список — /apps',
     'Проблемы? Напиши /support',
   ].join('\n');
 
-  await bot.telegram.sendMessage(payment.telegram_id, msg, { parse_mode: 'HTML' });
+  await bot.telegram.sendMessage(payment.telegram_id, msg, {
+    parse_mode: 'HTML',
+    link_preview_options: { is_disabled: true },
+  });
+
+  // Send QR code
+  try {
+    const qrBuffer = await QRCode.toBuffer(vlessLink, { width: 300, margin: 2 });
+    await bot.telegram.sendPhoto(payment.telegram_id, { source: qrBuffer }, {
+      caption: 'QR-код для быстрого подключения — отсканируй в приложении',
+    });
+  } catch (err) {
+    logger.warn({ error: (err as Error).message }, 'Failed to generate QR code');
+  }
   logger.info({ telegramId: payment.telegram_id, subId: sub.id, serverCode: server.code }, 'Subscription activated');
 }
 
