@@ -142,7 +142,7 @@ export async function addClient(
 
   const clientSettings = {
     id: uuid,
-    flow: 'xtls-rprx-vision',
+    flow: '',
     email,
     limitIp,
     totalGB: trafficBytes,
